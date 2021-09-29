@@ -1,12 +1,11 @@
 # Tensorflow ONNX
 
-기본적인 사용법만을 작성한 글입니다.
-
-모델 성능 확인을 위해 MNIST 데이터로 학습하는 과정을 추가했습니다.
+    기본적인 사용법만을 작성한 글입니다.
+    모델 성능 확인을 위해 MNIST 데이터로 학습하는 과정을 추가했습니다.
 
 참고한 사이트
 
-tensorflow-onnx
+- [tensorflow-onnx](https://github.com/onnx/tensorflow-onnx)
 
 ### 목차
 
@@ -61,17 +60,22 @@ model.save('tf_model', include_optimizer=False)  # 모델 저장
 
 코드를 보면 특이한 점이 하나 있을 것이다. 제일 아래 model.save에 include_optimizer=False가 추가되었다. 없이 실행하면 다음과 같은 오류를 확인할 수 있다.
 
-slot_variable = optimizer_object.add_slot(
-AttributeError: '_UserObject' object has no attribute 'add_slot' 최적화 함수인 optimizer에 관련되어 있음을 확인하였고 여기에서 힌트를 얻어 파라미터를
-추가하니 문제없이 동작하였다.
+`slot_variable = optimizer_object.add_slot(
+AttributeError: '_UserObject' object has no attribute 'add_slot'`
+
+최적화 함수인 optimizer에 관련되어 있음을 확인하였고 [여기](https://www.python2.net/questions-1719470.htm)
+에서 힌트를 얻어 파라미터를 추가하니 문제없이 동작하였다.
 
 ### ONNX로 모델 변환
 
 ```bash
-python -m tf2onnx.convert --saved-model tf_model --output model.onnx --opset 12 CLI로 모델을 변환할 수 있었다. 이전에 저장한
-tf_model 을 model.onnx 로 변환한다. 또한 opset 이라는 인자가 있는데 정확한 의미는 잘 모르겠지만 ONNX의 버전이라고 생각하면 좋을 거 같다. 사용 가능한 버전 및 자세한 정보는 여기 를
-확인하면 된다
+python -m tf2onnx.convert --saved-model tf_model --output model.onnx --opset 12 
 ```
+
+CLI로 모델을 변환할 수 있었다. 이전에 저장한 tf_model 을 model.onnx 로 변환한다. 또한 opset 이라는 인자가 있는데 정확한 의미는 잘 모르겠지만 ONNX의 버전이라고 생각하면 좋을 거 같다.
+사용 가능한 버전 및 자세한
+정보는 [여기](https://github.com/onnx/tensorflow-onnx#tf2onnx---convert-tensorflow-keras-tensorflowjs-and-tflite-models-to-onnx)
+를 확인하면 된다
 
 ### ONNX로 추론하기
 
